@@ -4,40 +4,68 @@ plugins {
 }
 
 android {
-    namespace = "com.example.prototype_anitovoyagar"
     compileSdk = 35
+    ndkVersion = "28.0.13004108"
+    namespace = "com.example.prototype_anitovoyagar"
 
     defaultConfig {
-        applicationId = "com.example.prototype_anitovoyagar"
         minSdk = 30
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        applicationId = "com.example.prototype_anitovoyagar"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        externalNativeBuild {
+            cmake {
+                arguments.add("-DANDROID_STL=c++_shared")
+                arguments.add("-DANDROID_USE_LEGACY_TOOLCHAIN_FILE=OFF")
+            }
+            ndk {
+                abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            }
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    lint {
+        disable.add("ExpiredTargetSdkVersion")
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    buildTypes {
+        release {
+            isDebuggable = false
+            isJniDebuggable = false
+        }
+        debug {
+            isDebuggable = true
+            isJniDebuggable = true
+        }
     }
     externalNativeBuild {
         cmake {
             path = file("jni [main]/CMakeLists.txt")
             version = "3.22.1"
         }
+    }
+    sourceSets {
+        getByName("debug") {
+            jniLibs {
+                srcDir("libs/debug")
+            }
+        }
+        getByName("release") {
+            jniLibs.srcDir("libs/release")
+        }
+    }
+    packaging {
+        jniLibs {
+            keepDebugSymbols.add("**.so")
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
