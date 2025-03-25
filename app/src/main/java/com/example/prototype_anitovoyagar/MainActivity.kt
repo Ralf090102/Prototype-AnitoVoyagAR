@@ -20,15 +20,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * A native method that is implemented by the 'prototype_anitovoyagar' native library,
+     * A native method that is implemented by the 'Anito-VoyagAR' native library,
      * which is packaged with this application.
      */
     external fun stringFromJNI(): String
 
     companion object {
-        // Used to load the 'prototype_anitovoyagar' library on application startup.
+        // Used to load the 'Anito-VoyagAR' library on application startup.
         init {
-            System.loadLibrary("prototype_anitovoyagar")
+            System.loadLibrary("Anito-VoyagAR")
         }
     }
 }
