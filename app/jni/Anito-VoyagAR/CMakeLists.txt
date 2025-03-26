@@ -9,13 +9,13 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
 
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../OpenXR/include
 )
 
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-        OpenXR
+        openxr-wrapper
         native_app_glue
-        spdlog
         ${log}
         ${android}
 )

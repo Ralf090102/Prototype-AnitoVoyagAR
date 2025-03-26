@@ -1,5 +1,8 @@
 #include <android_native_app_glue.h>
 
+#include "platform_data.hpp"
+#include "platform.hpp"
+
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/android_sink.h>
 
@@ -60,6 +63,10 @@ void android_main(struct android_app *app) {
 
         app->userData = &app_state;
         app->onAppCmd = AppHandleCmd;
+
+        std::shared_ptr<PlatformData> data = std::make_shared<PlatformData>();
+        data->application_vm = app->activity->vm;
+        data->application_activity = app->activity->clazz;
 
 
 
