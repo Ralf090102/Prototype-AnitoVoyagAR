@@ -16,7 +16,7 @@ struct AndroidAppState {
 };
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_myapp_MyNativeActivity_nativeOnCameraPermissionGranted(JNIEnv* env, jobject obj);
+Java_org_dlsugamelab_AnitoVoyagARMobile_VoyagARMainActivity_nativeOnCameraPermissionGranted(JNIEnv *env, jobject obj);
 
 static void AppHandleCmd(struct android_app *app, int32_t cmd) {
     auto *app_state = reinterpret_cast<AndroidAppState *>(app->userData);
@@ -67,11 +67,10 @@ static void AppHandleCmd(struct android_app *app, int32_t cmd) {
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_myapp_MyNativeActivity_nativeOnCameraPermissionGranted(JNIEnv* env, jobject obj) {
+Java_org_dlsugamelab_AnitoVoyagARMobile_VoyagARMainActivity_nativeOnCameraPermissionGranted(JNIEnv *env, jobject obj) {
     spdlog::info("Native: Camera permission granted!");
     // Since app_state is not directly accessible, use a global flag if needed
 }
-
 void android_main(struct android_app *app) {
     try {
         auto android_logger = spdlog::android_logger_mt("android", "spdlog-android");

@@ -45,9 +45,9 @@ android {
     }
     sourceSets {
         getByName("main") {
-            manifest.srcFile("AndroidManifest.xml")
             res.srcDirs("src/main/res")
             java.srcDirs("src/main/java")
+            assets.srcDirs("src/main/assets")
         }
         getByName("debug") {
             jniLibs {
