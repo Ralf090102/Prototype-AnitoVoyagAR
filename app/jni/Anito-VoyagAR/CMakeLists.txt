@@ -11,8 +11,12 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         openxr_loader
+        native_app_glue
+        magic_enum
+        spdlog
         ${log}
         ${android}
 )

@@ -66,4 +66,4 @@ FetchContent_Declare(OpenXR-SDK
 )
 FetchContent_MakeAvailable(OpenXR-SDK)
 
-add_subdirectory(Anito-VoyagAR)
+add_subdirectory(jni)

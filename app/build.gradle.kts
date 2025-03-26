@@ -1,6 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
 }
 
 android {
@@ -40,11 +39,15 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path = file("jni [main]/CMakeLists.txt")
+            path = file("CMakeLists.txt")
             version = "3.22.1"
         }
     }
     sourceSets {
+        getByName("main") {
+            manifest.srcFile("AndroidManifest.xml")
+            res.srcDirs("src/main/res")
+        }
         getByName("debug") {
             jniLibs {
                 srcDir("libs/debug")
@@ -59,21 +62,12 @@ android {
             keepDebugSymbols.add("**.so")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
