@@ -5,14 +5,14 @@ plugins {
 android {
     compileSdk = 35
     ndkVersion = "28.0.13004108"
-    namespace = "com.example.prototype_anitovoyagar"
+    namespace = "org.dlsugamelab.AnitoVoyagARMobile"
 
     defaultConfig {
         minSdk = 30
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        applicationId = "com.example.prototype_anitovoyagar"
+        applicationId = "org.dlsugamelab.AnitoVoyagARMobile"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -47,6 +47,7 @@ android {
         getByName("main") {
             manifest.srcFile("AndroidManifest.xml")
             res.srcDirs("src/main/res")
+            java.srcDirs("src/main/java")
         }
         getByName("debug") {
             jniLibs {
