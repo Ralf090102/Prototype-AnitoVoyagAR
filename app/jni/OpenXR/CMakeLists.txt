@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.22.1)
 add_library(openxr-wrapper SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/src/openxr_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/platform_android.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/openxr_program.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/TempGraphicsPlugin.cpp
 )
 
 target_include_directories(openxr-wrapper PRIVATE
@@ -18,5 +20,5 @@ target_link_libraries(openxr-wrapper PUBLIC
         openxr_loader
         spdlog
         magic_enum
-
+        glm
 )
