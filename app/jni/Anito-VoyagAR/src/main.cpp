@@ -63,8 +63,6 @@ void android_main(struct android_app *app) {
 
 
 
-
-
     } catch (const std::exception &ex) {
         spdlog::error(ex.what());
     } catch (...) {
