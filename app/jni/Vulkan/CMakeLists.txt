@@ -29,7 +29,6 @@ generate_export_header(vulkan_wrapper
         EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/include/vulkan_wrapper_export.h
 )
 
-
 install(TARGETS vulkan_wrapper
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib

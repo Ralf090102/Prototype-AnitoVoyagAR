@@ -6,7 +6,6 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/android.cmake)
 
 project("Anito-VoyagAR")
 
-
 # Version Management
 set(ANITO_VERSION_MAJOR 1)
 set(ANITO_VERSION_MINOR 0)
@@ -34,6 +33,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -ggdb")
 
+set(CMAKE_BUILD_TYPE_INIT "Debug")
+
 # Compiler Settings
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
     add_compile_options(-Wall -Wextra -Wpedantic)
@@ -53,8 +54,6 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /O2")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
 endif()
-
-set(CMAKE_BUILD_TYPE_INIT "Debug")
 
 # Enable Interprocedural Optimization on Release
 check_ipo_supported(RESULT IPO_SUPPORTED)
