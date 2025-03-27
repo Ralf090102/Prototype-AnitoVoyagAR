@@ -15,8 +15,7 @@ struct AndroidAppState {
     bool camera_permission_granted = false;
 };
 
-extern "C" JNIEXPORT void JNICALL
-Java_org_dlsugamelab_AnitoVoyagARMobile_VoyagARMainActivity_nativeOnCameraPermissionGranted(JNIEnv *env, jobject obj);
+extern "C" JNIEXPORT void JNICALL Java_org_dlsugamelab_AnitoVoyagARMobile_VoyagARMainActivity_nativeOnCameraPermissionGranted(JNIEnv *env, jobject obj);
 
 static void AppHandleCmd(struct android_app *app, int32_t cmd) {
     auto *app_state = reinterpret_cast<AndroidAppState *>(app->userData);
@@ -66,11 +65,11 @@ static void AppHandleCmd(struct android_app *app, int32_t cmd) {
     }
 }
 
-extern "C" JNIEXPORT void JNICALL
-Java_org_dlsugamelab_AnitoVoyagARMobile_VoyagARMainActivity_nativeOnCameraPermissionGranted(JNIEnv *env, jobject obj) {
+extern "C" JNIEXPORT void JNICALL Java_org_dlsugamelab_AnitoVoyagARMobile_VoyagARMainActivity_nativeOnCameraPermissionGranted(JNIEnv *env, jobject obj) {
     spdlog::info("Native: Camera permission granted!");
     // Since app_state is not directly accessible, use a global flag if needed
 }
+
 void android_main(struct android_app *app) {
     try {
         auto android_logger = spdlog::android_logger_mt("android", "spdlog-android");
@@ -89,16 +88,16 @@ void android_main(struct android_app *app) {
         data->application_vm = app->activity->vm;
         data->application_activity = app->activity->clazz;
 
-        std::shared_ptr<OpenXrProgram> program = CreateOpenXrProgram(CreatePlatform(data));
+        std::shared_ptr<OpenXrProgram> openXRProgram = CreateOpenXrProgram(CreatePlatform(data));
 
-        program->CreateInstance();
-        program->InitializeSystem();
-        program->InitializeSession();
+        openXRProgram->CreateInstance();
+        openXRProgram->InitializeSystem();
+        openXRProgram->InitializeSession();
         while (app->destroyRequested == 0) {
             for (;;) {
                 int events;
                 struct android_poll_source *source;
-                const int kTimeoutMilliseconds = (!app_state.resumed && !program->IsSessionRunning() && app->destroyRequested == 0) ? -1 : 0;
+                const int kTimeoutMilliseconds = (!app_state.resumed && !openXRProgram->IsSessionRunning() && app->destroyRequested == 0) ? -1 : 0;
                 if (ALooper_pollOnce(kTimeoutMilliseconds, nullptr, &events, (void **) &source) < 0) {
                     break;
                 }
@@ -107,13 +106,13 @@ void android_main(struct android_app *app) {
                 }
             }
 
-            program->PollEvents();
-            if (!program->IsSessionRunning()) {
+            openXRProgram->PollEvents();
+            if (!openXRProgram->IsSessionRunning()) {
                 continue;
             }
 
-            program->PollActions();
-            program->RenderFrame();
+            openXRProgram->PollActions();
+            openXRProgram->RenderFrame();
         }
 
         app->activity->vm->DetachCurrentThread();

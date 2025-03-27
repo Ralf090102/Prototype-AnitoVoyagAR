@@ -8,3 +8,6 @@ add_subdirectory(Vulkan)
 add_subdirectory(OpenXR)
 
 add_subdirectory(Anito-VoyagAR)
+
+include(${CMAKE_SOURCE_DIR}/CMake/properties.cmake)
+set_anito_properties()

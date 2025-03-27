@@ -1,0 +1,5 @@
+set(ANDROID_PLATFORM 30)
+set(ANDROID_STL c++_shared)
+set(ANDROID_TOOLCHAIN clang)
+set(ANDROID_CPP_FEATURES exceptions rtti)
+set(ANDROID_ARM_NEON TRUE)
