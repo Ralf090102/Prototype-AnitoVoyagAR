@@ -52,6 +52,7 @@ void android_main(struct android_app *app) {
         auto android_logger = spdlog::android_logger_mt("android", "spdlog-android");
         android_logger->set_level(spdlog::level::info);
         spdlog::set_default_logger(android_logger);
+        android_logger->set_pattern("%n: %v");
 
         JNIEnv *env;
         app->activity->vm->AttachCurrentThread(&env, nullptr);
@@ -60,7 +61,6 @@ void android_main(struct android_app *app) {
 
         app->userData = &app_state;
         app->onAppCmd = AppHandleCmd;
-
 
 
 
