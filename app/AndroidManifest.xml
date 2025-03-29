@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Camera feature requirements -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true" />
+
+    <!-- Add feature requirements for AR -->
+    <uses-feature android:name="android.hardware.vr.headtracking" android:required="false" />
+    <uses-feature android:name="android.software.ar" android:required="true" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,13 +23,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Prototype_AnitoVoyagAR"
         tools:targetApi="31">
+
+        <!-- ARCore requirement -->
+        <meta-data android:name="com.google.ar.core" android:value="required" />
+
+        <!-- OpenXR runtime -->
+        <meta-data android:name="org.khronos.openxr.OpenXR" android:value="true" />
+        <meta-data android:name="org.khronos.openxr.OpenXRRuntime" android:value="libopenxr_runtime_loader_arcore.so" />
+
         <activity
             android:name="android.app.NativeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:immersive="true">
             <meta-data android:name="android.app.lib_name" android:value="Anito-VoyagAR" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
