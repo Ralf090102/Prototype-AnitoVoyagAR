@@ -1,45 +1,102 @@
 package org.dlsugamelab.AnitoVoyagARMobile;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
-import android.app.NativeActivity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+public class VoyagARMainActivity extends AppCompatActivity {
+    private static final String TAG = "VoyagARMainActivity";
+    private static final int CAMERA_PERMISSION_CODE = 0;
 
-public class VoyagARMainActivity extends NativeActivity {
+    private ARCoreHelper arCoreHelper;
+    private boolean arCoreInitialized = false;
+
     static {
+        // Load native libraries
         System.loadLibrary("Anito-VoyagAR");
     }
-
-    private static final int REQUEST_CAMERA_PERMISSION = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkAndRequestCameraPermission();
-    }
+        setContentView(R.layout.activity_main);
 
-    private void checkAndRequestCameraPermission() {
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        // Initialize ARCoreHelper
+        arCoreHelper = new ARCoreHelper();
+
+        // Request camera permission if not granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+        } else {
+            onCameraPermissionGranted();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.i("MyNativeActivity", "Camera permission granted");
-                nativeOnCameraPermissionGranted();
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
+        super.onRequestPermissionsResult(requestCode, permissions, results);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
+                onCameraPermissionGranted();
             } else {
-                Log.e("MyNativeActivity", "Camera permission denied");
+                Toast.makeText(this, "Camera permission is required for AR", Toast.LENGTH_LONG).show();
+                finish(); // Exit if camera permission denied
             }
         }
     }
 
-    // Native method to notify C++ code that permission was granted
+    private void onCameraPermissionGranted() {
+        // Notify native code
+        nativeOnCameraPermissionGranted();
+
+        // Initialize ARCore
+        arCoreInitialized = arCoreHelper.initialize(this);
+        if (!arCoreInitialized) {
+            Toast.makeText(this, "Failed to initialize ARCore", Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (arCoreInitialized) {
+            arCoreHelper.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (arCoreInitialized) {
+            arCoreHelper.onPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (arCoreInitialized) {
+            arCoreHelper.close();
+        }
+        super.onDestroy();
+    }
+
+    // This method is called from the native side whenever the rendering thread updates
+    public void updateARCore() {
+        if (arCoreInitialized) {
+            arCoreHelper.update();
+        }
+    }
+
+    // Native methods
     public native void nativeOnCameraPermissionGranted();
 }

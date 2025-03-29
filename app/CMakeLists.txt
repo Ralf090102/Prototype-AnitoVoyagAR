@@ -143,6 +143,7 @@ if(OpenXR_SDK_ADDED)
     )
 endif()
 
+set(VK_BOOTSTRAP_PIC ON CACHE BOOL "Enable Position Independent Code for vk-bootstrap")
 FetchContent_Declare(vk_bootstrap
         GIT_REPOSITORY https://github.com/charles-lunarg/vk-bootstrap.git
         GIT_TAG v1.4.311
@@ -158,6 +159,8 @@ if(vk_bootstrap_ADDED)
     )
 endif()
 
+set_target_properties(vk-bootstrap PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 # Interface Libraries
 add_library(magic_enum_headers INTERFACE)
 target_include_directories(magic_enum_headers INTERFACE
@@ -172,21 +175,6 @@ target_include_directories(spdlog_headers INTERFACE
 add_library(glm_headers INTERFACE)
 target_include_directories(glm_headers INTERFACE
         ${glm_SOURCE_DIR}
-)
-
-add_library(SPIRV_Reflect_headers INTERFACE)
-target_include_directories(SPIRV_Reflect_headers INTERFACE
-        ${SPIRV_Reflect_SOURCE_DIR}/include
-)
-
-add_library(OpenXR_SDK_headers INTERFACE)
-target_include_directories(OpenXR_SDK_headers INTERFACE
-        ${OpenXR_SDK_SOURCE_DIR}/include
-)
-
-add_library(vk_bootstrap_headers INTERFACE)
-target_include_directories(vk_bootstrap_headers INTERFACE
-        ${vk_bootstrap_SOURCE_DIR}/src
 )
 
 find_package(Vulkan REQUIRED)

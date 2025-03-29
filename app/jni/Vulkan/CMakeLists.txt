@@ -2,8 +2,21 @@ cmake_minimum_required(VERSION 3.22.1)
 
 include(GenerateExportHeader)
 
+add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
+
 add_library(vulkan_wrapper SHARED
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/data_type.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_shader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_buffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_buffer_layout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_rendering_context.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_rendering_pipeline.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARCameraTextureManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARTrackingManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARBackgroundPipeline.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/AROcclusionPipeline.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARDepthTextureManager.cpp
 )
 
 target_include_directories(vulkan_wrapper
@@ -15,12 +28,16 @@ target_include_directories(vulkan_wrapper
 )
 
 target_compile_definitions(vulkan_wrapper PRIVATE
-        #TODO
+        GLM_ENABLE_EXPERIMENTAL
 )
 
 target_link_libraries(vulkan_wrapper PUBLIC
-        vk_bootstrap_headers
         Vulkan::Vulkan
+        vk-bootstrap
+        magic_enum_headers
+        spdlog_headers
+        spirv-reflect-static
+        glm_headers
 )
 
 # Generates Macros
