@@ -1,5 +1,5 @@
 #include "VulkanGraphicsPlugin.hpp"
-#include "openxr_utils.hpp"
+#include "OpenXRUtils.hpp"
 
 #include <spdlog/spdlog.h>
 

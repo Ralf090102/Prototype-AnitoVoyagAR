@@ -1,7 +1,7 @@
 #pragma once
-#include "graphics_plugin.hpp"
-#include "openxr_utils.hpp"
-#include "ARTrackingManager.hpp"
+#include "lib/GraphicsPlugin.hpp"
+#include "OpenXRUtils.hpp"
+#include "AR/ARTrackingManager.hpp"
 
 #include <VkBootstrap.h>
 

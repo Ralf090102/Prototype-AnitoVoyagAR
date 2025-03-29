@@ -4,21 +4,21 @@
 #include <android/log.h>
 
 // Platform and OpenXR includes
-#include "platform_data.hpp"
-#include "platform.hpp"
-#include "openxr-framework.hpp"
+#include "Platform/platform_data.hpp"
+#include "Platform/platform.hpp"
+#include "OpenXRFramework.hpp"
 #include "VulkanGraphicsPlugin.hpp"
 
 // Vulkan includes
-#include "vulkan_rendering_context.hpp"
-#include "vulkan_utils.hpp"
+#include "VulkanRenderingContext.hpp"
+#include "../../Vulkan/include/lib/VulkanUtils.hpp"
 
 // AR components
-#include "ARCameraTextureManager.hpp"
-#include "ARTrackingManager.hpp"
-#include "ARDepthTextureManager.hpp"
-#include "ARBackgroundPipeline.hpp"
-#include "AROcclusionPipeline.hpp"
+#include "AR/ARCameraTextureManager.hpp"
+#include "AR/ARTrackingManager.hpp"
+#include "AR/ARDepthTextureManager.hpp"
+#include "AR/ARBackgroundPipeline.hpp"
+#include "AR/AROcclusionPipeline.hpp"
 
 // Utilities
 #include <spdlog/spdlog.h>

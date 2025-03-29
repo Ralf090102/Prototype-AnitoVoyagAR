@@ -1,11 +1,11 @@
 #pragma once
 
-#include "openxr-include.hpp"
+#include "lib/OpenXRInclude.hpp"
 #include <glm/glm.hpp>
 
-#include "vulkan_rendering_context.hpp"
-#include "vulkan_rendering_pipeline.hpp"
-#include "vulkan_utils.hpp"
+#include "VulkanRenderingContext.hpp"
+#include "VulkanRenderingPipeline.hpp"
+#include "../../Vulkan/include/lib/VulkanUtils.hpp"
 
 class VulkanSwapchainContext {
 public:

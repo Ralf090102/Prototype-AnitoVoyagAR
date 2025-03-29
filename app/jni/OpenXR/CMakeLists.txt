@@ -1,16 +1,20 @@
 cmake_minimum_required(VERSION 3.22.1)
 
+file(GLOB PLATFORM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/*.cpp)
+file(GLOB LIB_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/*.cpp)
+file(GLOB ROOT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+
 add_library(openxr_wrapper SHARED
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/openxr_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/platform_android.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/openxr-framework.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/VulkanGraphicsPlugin.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/VulkanSwapchainContext.cpp
+        ${PLATFORM_SOURCES}
+        ${LIB_SOURCES}
+        ${ROOT_SOURCES}
 )
 
 target_include_directories(openxr_wrapper
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/Platform
         ${CMAKE_CURRENT_BINARY_DIR}/generated
         ${CMAKE_CURRENT_SOURCE_DIR}/../Vulkan/include
         PUBLIC

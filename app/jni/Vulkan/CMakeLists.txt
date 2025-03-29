@@ -4,24 +4,24 @@ include(GenerateExportHeader)
 
 add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 
+
+file(GLOB AR_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/AR/*.cpp)
+file(GLOB LIB_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/*.cpp)
+file(GLOB ROOT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+
+
 add_library(vulkan_wrapper SHARED
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/data_type.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_shader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_buffer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_buffer_layout.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_rendering_context.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_rendering_pipeline.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARCameraTextureManager.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARTrackingManager.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARBackgroundPipeline.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/AROcclusionPipeline.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/ARDepthTextureManager.cpp
+    ${AR_SOURCES}
+    ${LIB_SOURCES}
+    ${ROOT_SOURCES}
 )
 
 target_include_directories(vulkan_wrapper
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/AR
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/export
         ${CMAKE_CURRENT_BINARY_DIR}/generated
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../libs/Vulkan
@@ -43,7 +43,7 @@ target_link_libraries(vulkan_wrapper PUBLIC
 # Generates Macros
 generate_export_header(vulkan_wrapper
         BASE_NAME vulkan_wrapper
-        EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/include/vulkan_wrapper_export.h
+        EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/include/export/vulkan_wrapper_export.h
 )
 
 install(TARGETS vulkan_wrapper
